@@ -27,9 +27,11 @@ pool.connect(function(err, client, done){
     if(err){
         console.log(err)
     }else{
-        app.listen(3000, function(){
-            console.log("listening on port 3000");
-            })
+        let port = process.env.PORT;
+        if(port == null || port == ""){
+            port = 8000;
+        }
+        app.listen(port);
     }
     
     app.get("/catchments", function(req, res){
