@@ -1,0 +1,7 @@
+
+<ul>
+    <% catchments.forEach(function(item) { %>
+      <li><%= item.stationnum %> <%=item.stname%></li>
+      <a href="/catchments/<%= item.stationnum %>">Read More</a>
+    <% }); %>
+</ul>

@@ -1,0 +1,21 @@
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<h1> <%=stnum %> </h1>
+<table id="flowTable">
+<thead>
+    <tr>
+        <th>Date</th>
+        <th>Flow (cumecs)</th>
+    </tr>
+</thead>
+<tbody>
+<% station.forEach(function(item){ %>
+<tr>
+<td><%=item.mon_date.toDateString() %></td> 
+<td><%=item.flow %></td>
+</tr>
+<% }); %>
+</tbody>
+</table>
+<iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~jeremyfox36/4.embed"></iframe>
