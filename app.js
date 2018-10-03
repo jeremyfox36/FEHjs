@@ -12,6 +12,10 @@ const PGDATABASE = "feh1";
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));//support parsing of application/x-www-form-urlencoded post data 
 
+app.get("/", function(req, res){
+    res.send("You found the root route")
+})
+
 //database config
 var config = {
     user: PGUSER,
