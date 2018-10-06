@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const PORT = process.env.PORT || 5000
 //const { Pool } = require("pg");
 // const format = require("pg-format");
 // const plotly = require("plotly")("jeremyfox36", "riRDfe6P2b2qczPHl2We");
@@ -16,6 +17,7 @@ app.get("/", function(req, res){
     res.send("You found the root route")
 })
 
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 // //database config
 // var config = {
 //     user: PGUSER,
