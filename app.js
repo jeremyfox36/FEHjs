@@ -36,8 +36,9 @@ app.get("/", async(req, res) =>{
         const client = await pool.connect()
         const result = await client.query("SELECT * FROM cd3_data");
         const results = { 'results':(result) ? result.rows : null};
-        res.render(
-            'index', {catchments: results});
+        res.send("it worked")
+        // res.render(
+        //     'index', {catchments: results});
         client.release();
     } catch (err){
         console.log(err);
