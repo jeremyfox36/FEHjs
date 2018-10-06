@@ -1,7 +1,8 @@
+<%- include('/partials/header'); -%> 
 <h1>All the catchments in the database</h1>
 <ul>
     <% catchments.forEach(function(item) { %>
       <li><%= item.stationnum %> <%=item.stname%></li>
-      <a href="/catchments/<%= item.stationnum %>">Read More</a>
+      <a href="/catchments/<%= item.stationnum %>">AMAX data</a>
     <% }); %>
 </ul>
