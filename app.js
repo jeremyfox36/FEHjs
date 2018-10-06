@@ -48,48 +48,25 @@ app.get("/", async(req, res) =>{
     }
 })
 
-// pool.connect(function(err, client, done){
-//     if(err){
-//         console.log(err)
-//     }else{
-//         let port = process.env.PORT;
-//         if(port == null || port == ""){
-//             port = 8000;
-//         }
-//         app.listen(port);
-//     }
-    
-//     app.get("/catchments", function(req, res){
-//     myClient = client;
-//     var q = format('SELECT * FROM cd3_data;');
-//         myClient.query(q, function test(err, result){
-//             if(err){
-//                 console.log(err);
-//             }else{
-//                 var catchments = result.rows;
-//                 //console.log(tables);
-//                 res.render(
-//                     'index', {catchments: catchments}
-//                 )
-//             }
-//         })
-//     })
-//     //catchments end
+app.get("/catchments/:stationnum", function(req, res){
+    myClient = client;
+    let st = req.params.stationnum;
+    let q = {
+        text:'SELECT * FROM amaxdata WHERE stationnum = $1 ORDER BY mon_date ASC;',
+        values: [st]
+    }
+    myClient.query(q, function amax(err, result){
+        if(err){
+            console.log(err)
+        }else{
+            var station = result.rows;
+            var stnum = result.rows[0].stationnum;
+            res.render('show', {station: station, stnum: stnum})
+        }
+    })
+})
 
-//     app.get("/catchments/:stationnum", function(req, res){
-//         myClient = client;
-//         let st = req.params.stationnum;
-//         let q = {
-//             text:'SELECT * FROM amaxdata WHERE stationnum = $1 ORDER BY mon_date ASC;',
-//             values: [st]
-//         }
-//         myClient.query(q, function amax(err, result){
-//             if(err){
-//                 console.log(err)
-//             }else{
-//                 var station = result.rows;
-//                 var stnum = result.rows[0].stationnum;
-//                 //stolen code
+//                 //stolen code to set up plotly chart
 //                 var flow = [];
 //                 var dates = [];
 //                 var data = [];
@@ -108,12 +85,12 @@ app.get("/", async(req, res) =>{
 //                 plotly.plot(data, graphOptions, function (err, msg) {
 //                     console.log(msg["url"]);
 //                 });
-//                 res.render('show', {station: station, stnum: stnum})
+//                 
 //                 // console.log(q)
 //                 // console.log(st);
 //             }
 //         })
-//     })
-//     //catchments/:stationnum end
+// })
+// 
 // })
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
