@@ -48,15 +48,15 @@ app.get("/", async(req, res) =>{
     }
 })
 
-app.get("/catchments/:stationnum", function(req, res){
-    var st = req.params.stationnum;
-    const q = {
-        text:'SELECT * FROM amaxdata WHERE stationnum = $1 ORDER BY mon_date ASC;',
-        values: [st]
-    }
+app.get("/catchments/:stationnum", async(req, res) =>{
+    // var st = req.params.stationnum;
+    // const q = {
+    //     text:'SELECT * FROM amaxdata WHERE stationnum = $1 ORDER BY mon_date ASC;',
+    //     values: [st]
+    // }
     try{
         const client = await pool.connect()
-        const result = await client.query(q);
+        const result = await client.query('SELECT * FROM amaxdata WHERE stationnum = 17002 ORDER BY mon_date ASC;');
         const results = { 'results':(result) ? result.rows : null};
         var station = result.rows;
         var stnum = result.rows[0].stationnum;
