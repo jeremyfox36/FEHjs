@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 5000
-//const { Pool } = require("pg");
+const { Pool } = require("pg");
 // const format = require("pg-format");
 // const plotly = require("plotly")("jeremyfox36", "riRDfe6P2b2qczPHl2We");
 
@@ -13,11 +13,11 @@ const PORT = process.env.PORT || 5000
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));//support parsing of application/x-www-form-urlencoded post data 
 
-app.get("/", function(req, res){
-    res.send("You found the root route")
-})
+// app.get("/", function(req, res){
+//     res.send("You found the root route")
+// })
 
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
 // //database config
 // var config = {
 //     user: PGUSER,
@@ -26,27 +26,27 @@ app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 //     idelTimeoutMillis: 30000
 // }
 
-// const pool = new Pool({
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: true
-// });
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+});
 
 //var myClient;
 
-// app.get("/", async(req, res) =>{
-//     try{
-//         // const client = await pool.connect()
-//         // const result = await client.query("SELECT * FROM cd3_data");
-//         // const results = { 'results':(result) ? result.rows : null};
-//         res.send("it worked")
-//         // res.render(
-//         //     'index', {catchments: results});
-//         client.release();
-//     } catch (err){
-//         console.log(err);
-//         res.send("Error " + err);
-//     }
-// })
+app.get("/", async(req, res) =>{
+    try{
+        // const client = await pool.connect()
+        // const result = await client.query("SELECT * FROM cd3_data");
+        // const results = { 'results':(result) ? result.rows : null};
+        res.send("it worked")
+        // res.render(
+        //     'index', {catchments: results});
+        client.release();
+    } catch (err){
+        console.log(err);
+        res.send("Error " + err);
+    }
+})
 
 // pool.connect(function(err, client, done){
 //     if(err){
@@ -116,3 +116,4 @@ app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 //     })
 //     //catchments/:stationnum end
 // })
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
