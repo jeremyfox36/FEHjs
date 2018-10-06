@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const { Pool } = require("pg");
-const format = require("pg-format");
-const plotly = require("plotly")("jeremyfox36", "riRDfe6P2b2qczPHl2We");
+// const format = require("pg-format");
+// const plotly = require("plotly")("jeremyfox36", "riRDfe6P2b2qczPHl2We");
 
 //const PGUSER = "postgres";
 //const PGDATABASE = "feh1";
@@ -33,9 +33,9 @@ var myClient;
 
 app.get("/", async(req, res) =>{
     try{
-        const client = await pool.connect()
-        const result = await client.query("SELECT * FROM cd3_data");
-        const results = { 'results':(result) ? result.rows : null};
+        // const client = await pool.connect()
+        // const result = await client.query("SELECT * FROM cd3_data");
+        // const results = { 'results':(result) ? result.rows : null};
         res.send("it worked")
         // res.render(
         //     'index', {catchments: results});
