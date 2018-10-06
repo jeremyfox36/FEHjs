@@ -12,9 +12,9 @@ const { Pool } = require("pg");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));//support parsing of application/x-www-form-urlencoded post data 
 
-// app.get("/", function(req, res){
-//     res.send("You found the root route")
-// })
+app.get("/", function(req, res){
+    res.send("You found the root route")
+})
 
 // //database config
 // var config = {
@@ -24,27 +24,27 @@ app.use(bodyParser.urlencoded({extended:true}));//support parsing of application
 //     idelTimeoutMillis: 30000
 // }
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
-});
+// const pool = new Pool({
+//     connectionString: process.env.DATABASE_URL,
+//     ssl: true
+// });
 
-var myClient;
+//var myClient;
 
-app.get("/", async(req, res) =>{
-    try{
-        // const client = await pool.connect()
-        // const result = await client.query("SELECT * FROM cd3_data");
-        // const results = { 'results':(result) ? result.rows : null};
-        res.send("it worked")
-        // res.render(
-        //     'index', {catchments: results});
-        client.release();
-    } catch (err){
-        console.log(err);
-        res.send("Error " + err);
-    }
-})
+// app.get("/", async(req, res) =>{
+//     try{
+//         // const client = await pool.connect()
+//         // const result = await client.query("SELECT * FROM cd3_data");
+//         // const results = { 'results':(result) ? result.rows : null};
+//         res.send("it worked")
+//         // res.render(
+//         //     'index', {catchments: results});
+//         client.release();
+//     } catch (err){
+//         console.log(err);
+//         res.send("Error " + err);
+//     }
+// })
 
 // pool.connect(function(err, client, done){
 //     if(err){
