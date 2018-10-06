@@ -49,22 +49,23 @@ app.get("/", async(req, res) =>{
 })
 
 app.get("/catchments/:stationnum", function(req, res){
-    myClient = client;
     let st = req.params.stationnum;
     let q = {
         text:'SELECT * FROM amaxdata WHERE stationnum = $1 ORDER BY mon_date ASC;',
         values: [st]
     }
-    myClient.query(q, function amax(err, result){
-        if(err){
-            console.log(err)
-        }else{
-            var station = result.rows;
-            var stnum = result.rows[0].stationnum;
-            res.render('show', {station: station, stnum: stnum})
-        }
+    try{
+        const client = await pool.connect()
+        const result = await client.query(q);
+        const results = { 'results':(result) ? result.rows : null};
+        var station = result.rows;
+        var stnum = result.rows[0].stationnum;
+        res.render('show', {station: station, stnum: stnum})
+    } catch(err){
+        console.log(err);
+        res.send("Error " + err);
+    }      
     })
-})
 
 //                 //stolen code to set up plotly chart
 //                 var flow = [];
