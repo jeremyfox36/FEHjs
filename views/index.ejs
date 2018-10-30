@@ -1,8 +1,29 @@
-// <% include ../partials/header %> 
+<% include partials/header%>
 <h1>All the catchments in the database</h1>
-<ul>
-    <% catchments.forEach(function(item) { %>
-      <li><%= item.stationnum %> <%=item.stname%></li>
-      <a href="/catchments/<%= item.stationnum %>">AMAX data</a>
-    <% }); %>
-</ul>
+<table id="catchmentsTable">
+<thead>
+    <tr>
+        <th>Station number</th>
+        <th>Station name</th>
+        <th>Station comments</th>
+        <th>Catchment comments</th>
+        <th>QMED comments</th>
+        <th>Pooling comments</th>
+        <th>View AMAX data</th>
+    </tr>
+</thead>
+<tbody>
+<% catchments.forEach(function(item){ %>
+<tr>
+<td><%=item.stationnum %></td> 
+<td><%=item.stname %></td>
+<td><%=item.station_comments %></td>
+<td><%=item.catchment_comments %></td>
+<td><%=item.qmed_comments %></td>
+<td><%=item.pooling_comments %></td>
+<td><a href="/catchments/<%= item.stationnum %>">Click to check AMAX data</a></td>
+</tr>
+<% }); %>
+</tbody>
+</table>
+<% include partials/footer%>

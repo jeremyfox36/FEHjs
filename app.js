@@ -3,35 +3,30 @@ const app = express();
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 5000
 const { Pool } = require("pg");
-// const format = require("pg-format");
-// const plotly = require("plotly")("jeremyfox36", "riRDfe6P2b2qczPHl2We");
 
-//const PGUSER = "postgres";
-//const PGDATABASE = "feh1";
+const PGUSER = "postgres";
+const PGDATABASE = "feh1";
 
 //app settings
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));//support parsing of application/x-www-form-urlencoded post data 
 app.use(express.static(__dirname + '/public'));
-// app.get("/", function(req, res){
-//     res.send("You found the root route")
-// })
 
+//database config
+var config = {
+    user: PGUSER,
+    database: PGDATABASE,
+    max: 10,
+    idelTimeoutMillis: 30000
+}
 
-// //database config
-// var config = {
-//     user: PGUSER,
-//     database: PGDATABASE,
-//     max: 10,
-//     idelTimeoutMillis: 30000
-// }
+const pool = new Pool(config);//local
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
-});
-
-//var myClient;
+//just for Heroku deployment
+// const pool = new Pool({
+//     connectionString: process.env.DATABASE_URL,
+//     //ssl: true
+// });
 
 app.get("/", async(req, res) =>{
     try{
@@ -39,6 +34,7 @@ app.get("/", async(req, res) =>{
         const result = await client.query("SELECT * FROM cd3_data");
         const results = { 'results':(result) ? result.rows : null};
         //res.send(results)
+        console.log(result.rows)
         res.render(
             "index", {catchments: result.rows});
         client.release();
@@ -67,31 +63,4 @@ app.get("/catchments/:stationnum", async(req, res) =>{
     }      
     })
 
-//                 //stolen code to set up plotly chart
-//                 var flow = [];
-//                 var dates = [];
-//                 var data = [];
-//                 var chartSetup = {}
-//                 station.forEach(function(val){
-//                     flow.push(val["flow"]);
-//                     dates.push(val["mon_date"]);           
-//                 })
-//                 chartSetup = {
-//                     x: dates,
-//                     y: flow,
-//                     type: "scatter"
-//                 }
-//                 data.push(chartSetup);
-//                 var graphOptions = {filename: "date-axes", fileopt: "overwrite"};
-//                 plotly.plot(data, graphOptions, function (err, msg) {
-//                     console.log(msg["url"]);
-//                 });
-//                 
-//                 // console.log(q)
-//                 // console.log(st);
-//             }
-//         })
-// })
-// 
-// })
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
