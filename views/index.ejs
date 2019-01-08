@@ -1,5 +1,5 @@
 <% include partials/header%>
-<h1>All the catchments in the database</h1>
+<h1>Catchments in the <a href="https://nrfa.ceh.ac.uk/peak-flow-dataset" target="blank">HiFlows database (Version 6)</a></h1>
 <table id="catchmentsTable">
 <thead>
     <tr>
@@ -21,7 +21,7 @@
 <td><%=item.catchment_comments %></td>
 <td><%=item.qmed_comments %></td>
 <td><%=item.pooling_comments %></td>
-<td><a href="/catchments/<%= item.stationnum %>">Click to check AMAX data</a></td>
+<td><a href="/api/catchments/<%= item.stationnum %>">Click to check AMAX data</a></td>
 </tr>
 <% }); %>
 </tbody>

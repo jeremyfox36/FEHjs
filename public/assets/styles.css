@@ -6,7 +6,7 @@ body {
  */
  
 table a:link {
-	color: #666;
+	color: blue;
 	font-weight: bold;
 	text-decoration:none;
 }

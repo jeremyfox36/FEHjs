@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require('path');
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 5000
 const { Pool } = require("pg");
@@ -10,7 +11,7 @@ const PGDATABASE = "feh1";
 //app settings
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));//support parsing of application/x-www-form-urlencoded post data 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname + '/public')));
 
 //database config
 var config = {
@@ -28,15 +29,16 @@ const pool = new Pool(config);//local
 //     //ssl: true
 // });
 
-app.get("/", async(req, res) =>{
+app.get("/api/catchments", async(req, res) =>{
     try{
         const client = await pool.connect()
         const result = await client.query("SELECT * FROM cd3_data");
         const results = { 'results':(result) ? result.rows : null};
         //res.send(results)
-        console.log(result.rows)
-        res.render(
-            "index", {catchments: result.rows});
+        //console.log(result.rows)
+        // res.render(
+        //     "index", {catchments: result.rows});
+        res.json(result.rows)
         client.release();
     } catch (err){
         console.log(err);
@@ -44,7 +46,7 @@ app.get("/", async(req, res) =>{
     }
 })
 
-app.get("/catchments/:stationnum", async(req, res) =>{
+app.get("/api/catchments/:stationnum", async(req, res) =>{
     var st = req.params.stationnum;
     const q = {
         text:'SELECT * FROM amaxdata WHERE stationnum = $1 ORDER BY mon_date ASC;',
@@ -56,7 +58,8 @@ app.get("/catchments/:stationnum", async(req, res) =>{
         const results = { 'results':(result) ? result.rows : null};
         var station = result.rows;
         var stnum = result.rows[0].stationnum;
-        res.render('show', {station: station, stnum: stnum})
+        // res.render('show', {station: station, stnum: stnum})
+        res.json(result.rows);
     } catch(err){
         console.log(err);
         res.send("Error " + err);
